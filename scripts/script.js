@@ -3,7 +3,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
   let timerHours = document.getElementById('timer-hours'),
       timerMinutes = document.getElementById('timer-minutes'),
-      timerSeconds = document.getElementById('timer-seconds');
+      timerSeconds = document.getElementById('timer-seconds'),
+      timerNumbers = document.querySelector('.timer-numbers');
 
   function timeLeft(deadline) {
 
@@ -21,6 +22,7 @@ document.addEventListener('DOMContentLoaded', function() {
       let timer = getTimeRemaining();
 
       if (timer.timeRemaining < 0) {
+        timerNumbers.style.color = `red`;
         timerHours = `00`;
         timerMinutes = `00`;
         timerSeconds = `00`;
@@ -31,20 +33,14 @@ document.addEventListener('DOMContentLoaded', function() {
           
           setTimeout(updateClock, 1000);
       }
-
     }
-
     updateClock();
-
-
-
-
-
-    // if (timeRemaining > 0) {
-    //   setTimeout();
-    // }
-    
   }
-
+  // Таймер с конкретной датой
   timeLeft('21 april 2020');
+
+  // Таймер с отсроком в 24 часа
+  let timeFrom = ``,
+      timeTill = 
+  // timeLeft();
 })
