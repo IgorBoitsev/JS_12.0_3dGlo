@@ -39,17 +39,6 @@ document.addEventListener('DOMContentLoaded', function() {
     updateClock();
   }
 
-  // function displayTimeToNewYear() {
-  //   let h = new Date().getHours(),
-  //       status = {};
-
-  //   h < 6 ? : status.
-
-  //   console.log(status);
-    
-  // }
-
-  // displayTimeToNewYear();
   // Таймер с конкретной датой
   timeLeft('21 april 2020');
 
