@@ -4,7 +4,9 @@ document.addEventListener('DOMContentLoaded', function() {
   let timerHours = document.getElementById('timer-hours'),
       timerMinutes = document.getElementById('timer-minutes'),
       timerSeconds = document.getElementById('timer-seconds'),
-      timerNumbers = document.querySelector('.timer-numbers');
+      timerNumbers = document.querySelector('.timer-numbers'),
+      hello = document.getElementById('hello'),
+      closeToNewYear = document.getElementById('close-to-new-year');
 
   function timeLeft(deadline) {
 
@@ -36,11 +38,20 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     updateClock();
   }
+
+  // function displayTimeToNewYear() {
+  //   let h = new Date().getHours(),
+  //       status = {};
+
+  //   h < 6 ? : status.
+
+  //   console.log(status);
+    
+  // }
+
+  // displayTimeToNewYear();
   // Таймер с конкретной датой
   timeLeft('21 april 2020');
 
-  // Таймер с отсроком в 24 часа
-  let timeFrom = ``,
-      timeTill = 
-  // timeLeft();
+  // console.log(new Date(`1 january 2021`));
 })
