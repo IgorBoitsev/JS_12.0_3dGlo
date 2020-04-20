@@ -4,6 +4,7 @@ let hello = document.getElementById('hello'),
     day = document.getElementById('day'),
     currentTime = document.getElementById('current-time'),
     closeToNY = document.getElementById('close-to-ny'),
+    ny = new Date(`1 janaury 2021`),
     today = new Date(),
     week = {
       0 : `Воскресенье`,
@@ -56,6 +57,11 @@ switch (today.getDay()) {
 // Определение текущего времени
 status.time = today.toLocaleTimeString(`en`);
 
+// Определене количества дней до НГ
+status.daysToNY = Math.ceil((ny.getTime() - today.getTime()) / 86400000);
 
-console.log(status.time);
-
+// Заполнение документа
+hello.textContent = status.dayTime;
+day.textContent = `Сегодня: ${status.dayName}`;
+currentTime.textContent = `Текущее вермя: ${status.time}`;
+closeToNY.textContent = `До нового года осталось ${status.daysToNY} дней!`;
