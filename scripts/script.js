@@ -4,10 +4,14 @@ document.addEventListener('DOMContentLoaded', function() {
   let timerHours = document.getElementById('timer-hours'),
       timerMinutes = document.getElementById('timer-minutes'),
       timerSeconds = document.getElementById('timer-seconds'),
-      timerNumbers = document.querySelector('.timer-numbers');
+      timerNumbers = document.querySelector('.timer-numbers'),
+      month = {
+        0 : `january`,
+        3 : `april`,
+      };
 
   function timeLeft(deadline) {
-
+ 
     function getTimeRemaining() {
       let dateStart = new Date().getTime(),
           dateStop = new Date(deadline).getTime(),          
@@ -40,11 +44,9 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
   // Таймер с конкретной датой
-  timeLeft(`22 april 2020`);
+  // timeLeft(`22 april 2020`);
 
-  // let deadline24Hours = new Date(new Date().getTime() + 1000 * 60 * 60 * 24);
-
-  // timeLeft(deadline24Hours);
-  
-  // console.log(new Date().getTime() + 1000 * 60 * 60 * 24);
+  // Таймер отсчитывает 
+  let deadline24Hours = `${new Date().getDate() + 1} ${month[new Date().getMonth()]} ${new Date().getFullYear()}`;
+  timeLeft(deadline24Hours);
 })

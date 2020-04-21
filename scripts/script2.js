@@ -4,6 +4,9 @@ let hello = document.getElementById('hello'),
     day = document.getElementById('day'),
     currentTime = document.getElementById('current-time'),
     closeToNY = document.getElementById('close-to-ny'),
+    startStop = document.getElementById('start-stop'),
+    reset = document.getElementById('reset'),
+    animation = document.querySelector('.animation'),
     ny = new Date(`1 janaury 2021`),
     today = new Date(),
     week = {
@@ -65,3 +68,38 @@ hello.textContent = status.dayTime;
 day.textContent = `Сегодня: ${status.dayName}`;
 currentTime.textContent = `Текущее вермя: ${status.time}`;
 closeToNY.textContent = `До нового года осталось ${status.daysToNY} дней!`;
+
+// Анимация
+let play = false;
+
+function stickers() {
+  play = !play;
+ 
+  if (play) {
+    // requestAnimationFrame(stickers);
+    let img = document.createElement('img'),
+        i = Math.floor(Math.random() * (11 - 1) + 1),
+        maxWidth = getComputedStyle(document.body).width,
+        maxHeight = getComputedStyle(document.body).height,
+        posTop = Math.floor(Math.random() * (11 - 1) + 1),
+        posLetf = Math.floor(Math.random() * (11 - 1) + 1);
+    
+    
+    
+    img.src = ``;
+    animation.append(img);
+
+  }
+}
+
+
+startStop.addEventListener('click', () => {
+  stickers();
+});
+
+reset.addEventListener('click', () => {
+  // Очитска окна
+  play = false;
+});
+
+
