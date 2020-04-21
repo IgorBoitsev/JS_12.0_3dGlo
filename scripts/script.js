@@ -4,15 +4,13 @@ document.addEventListener('DOMContentLoaded', function() {
   let timerHours = document.getElementById('timer-hours'),
       timerMinutes = document.getElementById('timer-minutes'),
       timerSeconds = document.getElementById('timer-seconds'),
-      timerNumbers = document.querySelector('.timer-numbers'),
-      hello = document.getElementById('hello'),
-      closeToNewYear = document.getElementById('close-to-new-year');
+      timerNumbers = document.querySelector('.timer-numbers');
 
   function timeLeft(deadline) {
 
     function getTimeRemaining() {
       let dateStart = new Date().getTime(),
-          dateStop = new Date(deadline).getTime(),
+          dateStop = new Date(deadline).getTime(),          
           timeRemaining = (dateStop - dateStart) / 1000,
           seconds = Math.floor(timeRemaining % 60),
           minutes = Math.floor((timeRemaining / 60) % 60),
@@ -22,25 +20,31 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function updateClock() {
       let timer = getTimeRemaining();
-
+      
       if (timer.timeRemaining < 0) {
         timerNumbers.style.color = `red`;
-        timerHours = `00`;
-        timerMinutes = `00`;
-        timerSeconds = `00`;
+        timer.hours = `00`;
+        timerHours.textContent = timer.hours;
+        timer.minutes = `00`;
+        timerMinutes.textContent = timer.minutes;
+        timer.seconds = `00`;
+        timerSeconds.textContent = timer.seconds;
+        clearInterval(updClk);
       } else {
           timer.hours < 10 ? timerHours.textContent = `0${timer.hours}` : timerHours.textContent = timer.hours;
           timer.minutes < 10 ? timerMinutes.textContent = `0${timer.minutes}` : timerMinutes.textContent = timer.minutes;
           timer.seconds < 10 ? timerSeconds.textContent = `0${timer.seconds}` : timerSeconds.textContent = timer.seconds;
-          
-          setTimeout(updateClock, 1000);
       }
     }
-    updateClock();
+    let updClk = setInterval(updateClock, 1000);
   }
 
   // Таймер с конкретной датой
-  timeLeft('21 april 2020');
+  timeLeft(`22 april 2020`);
 
-  // console.log(new Date(`1 january 2021`));
+  // let deadline24Hours = new Date(new Date().getTime() + 1000 * 60 * 60 * 24);
+
+  // timeLeft(deadline24Hours);
+  
+  // console.log(new Date().getTime() + 1000 * 60 * 60 * 24);
 })
