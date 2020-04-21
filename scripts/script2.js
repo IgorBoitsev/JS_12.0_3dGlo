@@ -73,13 +73,11 @@ closeToNY.textContent = `До нового года осталось ${status.da
 let play = false;
 let stick;
 
-function stickers() {
-  play = !play;
- 
-  if (play) {
-    stick = requestAnimationFrame(stickers);
+let stickers = function() {
+
+  stick = requestAnimationFrame(stickers);
     let img = document.createElement('img'),
-        i = Math.floor(Math.random() * (11 - 1) + 1),
+        i = Math.floor(Math.random() * (3 - 1) + 1),
         maxWidth = getComputedStyle(document.body).width.substr(0, 3),
         maxHeight = getComputedStyle(document.body).height.substr(0, 3),
         posTop = Math.floor(Math.random() * maxHeight),
@@ -89,17 +87,20 @@ function stickers() {
     img.style.cssText = `position: absolute; top: ${posTop}; left: ${posLeft}`;
 
     animation.append(img);
-  }
 }
 
-
 startStop.addEventListener('click', () => {
-  stickers();
+  play  = !play;
+  if(play) {
+    stick = requestAnimationFrame(stickers);
+  } else {
+    cancelAnimationFrame(stick);
+  }
+
 });
 
 reset.addEventListener('click', () => {
-  // Очитска окна
+  cancelAnimationFrame(stick);
+  animation.textContent = ``;
   play = false;
 });
-
-
