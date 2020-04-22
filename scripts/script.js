@@ -19,7 +19,8 @@ document.addEventListener('DOMContentLoaded', function() {
         10 : `october`,
         11 : `december`
       };
-
+  
+  // Обратный отсчет времени
   function timeLeft(deadline) {
  
     function getTimeRemaining() {
@@ -105,7 +106,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
     popupBtn.forEach((item) => {
       item.addEventListener(`click`, () => {
-        console.log(document.getElementById(`service-block`).clientWidth);
         
         if (document.documentElement.clientWidth > 768) {
           popup.style.opacity = 0;
@@ -124,10 +124,58 @@ document.addEventListener('DOMContentLoaded', function() {
   showPopup();
 
   // scroll
-  const scroll = () => {
-    const scrollDown = document.getElementById(`scroll-down`);
+  const scrolling = () => {
+    const scrollDownBtn = document.getElementById(`scroll-down`),
+          menu = document.querySelector(`menu`),
+          menuItems = menu.querySelectorAll(`ul > li`);
+    
+
+    menuItems.forEach((item) => {
+      // Получение id блока, до которого нужно скролить
+      let elemToScroll = item.querySelector(`a`).getAttribute(`href`).substr(1),
+          elemToScrollHeight = document.getElementById(`${elemToScroll}`).getBoundingClientRect().top,
+          scroll;
+
+      const scrollToId = function() {
+        scroll = requestAnimationFrame(scrollToId);
+        if (elemToScrollHeight > 0) {
+          window.scrollBy(0, 1);
+          elemToScrollHeight--;
+        }
+        if (elemToScrollHeight < 0) {
+          window.scrollBy(0, -1);
+          elemToScrollHeight++;
+        }
+        if (elemToScrollHeight === 0) {
+          cancelAnimationFrame(scroll);
+        }
+        
+      }
+
+      item.addEventListener(`click`, () => {
+        requestAnimationFrame(scrollToId);
+      })
+    });
+
+    let scrollToServiceBlock,
+        heigthToBlock = document.getElementById(`service-block`).getBoundingClientRect().top;
+    const scrollDown = function() {
+      scrollToServiceBlock = requestAnimationFrame(scrollDown);
+      window.scrollBy(0, 1);
+      heigthToBlock--;
+    };
+
+    scrollDownBtn.addEventListener(`click`, () => {
+      heigthToBlock = document.getElementById(`service-block`).getBoundingClientRect().top;
+
+      if (heigthToBlock > 0) {
+        requestAnimationFrame(scrollDown);
+      } else {
+        cancelAnimationFrame(scrollDown);
+      }
+    });
     
           
   };
-  scroll();
+  scrolling();
 })
