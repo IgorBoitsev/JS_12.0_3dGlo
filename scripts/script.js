@@ -105,10 +105,15 @@ document.addEventListener('DOMContentLoaded', function() {
 
     popupBtn.forEach((item) => {
       item.addEventListener(`click`, () => {
-        popup.style.opacity = 0;
-        popup.style.display = `block`;
-        opacity = requestAnimationFrame(popupAppearance);
-       
+        console.log(document.getElementById(`service-block`).clientWidth);
+        
+        if (document.documentElement.clientWidth > 768) {
+          popup.style.opacity = 0;
+          popup.style.display = `block`;
+          requestAnimationFrame(popupAppearance);
+        } else {
+            popup.style.display = `block`;
+        }
       });
     });
 
