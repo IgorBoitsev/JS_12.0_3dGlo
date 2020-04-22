@@ -5,20 +5,8 @@ document.addEventListener('DOMContentLoaded', function() {
       timerMinutes = document.getElementById('timer-minutes'),
       timerSeconds = document.getElementById('timer-seconds'),
       timerNumbers = document.querySelector('.timer-numbers'),
-      month = {
-        0 : `january`,
-        1 : `february`,
-        2 : `march`,
-        3 : `april`,
-        4 : `may`,
-        5 : `june`,
-        6 : `july`,
-        7 : `august`,
-        8 : `september`,
-        9 : `november`,
-        10 : `october`,
-        11 : `december`
-      };
+      month = [`january`, `february`, `march`, `april`, `may`, `june`, `july`, `august`,
+              `september`, `november`, `october`, `december`];
   
   // Обратный отсчет времени
   function timeLeft(deadline) {
@@ -54,10 +42,7 @@ document.addEventListener('DOMContentLoaded', function() {
     let updClk = setInterval(updateClock, 1000);
   }
 
-  // Таймер с конкретной датой
-  // timeLeft(`22 april 2020`);
-
-  // Таймер отсчитывает 
+  // Таймер отсчитывает сутки (календарные)
   let deadline24Hours = `${new Date().getDate() + 1} ${month[new Date().getMonth()]} ${new Date().getFullYear()}`;
   timeLeft(deadline24Hours);
 
@@ -67,23 +52,23 @@ document.addEventListener('DOMContentLoaded', function() {
           closeBtn = document.querySelector(`.close-btn`),
           menu = document.querySelector(`menu`),
           menuItems = menu.querySelectorAll(`ul > li`);
-    const showMenu = () => {
-
-      // ----------------------------------------------------------------------------
-      // if (!menu.style.transform || menu.style.transform === `translate(-100%)`) {
-      //   menu.style.transform = `translate(0)`;
-      // } else {
-      //     menu.style.transform = `translate(-100%)`;
-      // }
-      // ----------------------------------------------------------------------------
-
-      menu.classList.toggle(`active-menu`);
-    };       
+    const showMenu = () => menu.classList.toggle(`active-menu`);
     
+    // Варинат с двумя обработчиками событиями
+    menu.addEventListener(`click`, (event) => {
+      console.log(event.target.closest(`.close-btn`));
+      if (event.target.closest(`li`) || event.target.closest(`.close-btn`)) {
+        showMenu();
+      }
+      
+    });
     menuBtn.addEventListener('click', showMenu);
-    closeBtn.addEventListener(`click`, showMenu);
 
-    menuItems.forEach((item) => item.addEventListener(`click`, showMenu));
+    // Вариант с одним обработчиком события
+    
+
+
+
   };
   toggleMenu();
 
@@ -117,65 +102,98 @@ document.addEventListener('DOMContentLoaded', function() {
       });
     });
 
-    popupClose.addEventListener('click', () => {
-      popup.style.display = `none`;
+    popup.addEventListener(`click`, (event) => {
+      if (!event.target.closest(`.popup-content`) ||
+          event.target.closest(`.popup-close`))
+        popup.style.display = `none`;
     });
   };
   showPopup();
 
-  // scroll
-  const scrolling = () => {
-    const scrollDownBtn = document.getElementById(`scroll-down`),
-          menu = document.querySelector(`menu`),
-          menuItems = menu.querySelectorAll(`ul > li`);
+  // Прокрутка до нужного якоря
+  // const scrolling = () => {
+  //   const scrollDownBtn = document.getElementById(`scroll-down`),
+  //         menu = document.querySelector(`menu`),
+  //         menuItems = menu.querySelectorAll(`ul > li`);
     
 
-    menuItems.forEach((item) => {
-      // Получение id блока, до которого нужно скролить
-      let elemToScroll = item.querySelector(`a`).getAttribute(`href`).substr(1),
-          elemToScrollHeight = document.getElementById(`${elemToScroll}`).getBoundingClientRect().top,
-          scroll;
+  //   menuItems.forEach((item) => {
+  //     // Получение id блока, до которого нужно скролить
+  //     let elemToScroll = item.querySelector(`a`).getAttribute(`href`).substr(1),
+  //         elemToScrollHeight = document.getElementById(`${elemToScroll}`).getBoundingClientRect().top,
+  //         scroll;
 
-      const scrollToId = function() {
-        scroll = requestAnimationFrame(scrollToId);
-        if (elemToScrollHeight > 0) {
-          window.scrollBy(0, 1);
-          elemToScrollHeight--;
-        }
-        if (elemToScrollHeight < 0) {
-          window.scrollBy(0, -1);
-          elemToScrollHeight++;
-        }
-        if (elemToScrollHeight === 0) {
-          cancelAnimationFrame(scroll);
-        }
+  //     const scrollToId = function() {
+  //       scroll = requestAnimationFrame(scrollToId);
+  //       if (elemToScrollHeight > 0) {
+  //         window.scrollBy(0, 1);
+  //         elemToScrollHeight--;
+  //       }
+  //       if (elemToScrollHeight < 0) {
+  //         window.scrollBy(0, -1);
+  //         elemToScrollHeight++;
+  //       }
+  //       if (elemToScrollHeight === 0) {
+  //         cancelAnimationFrame(scroll);
+  //       }
         
+  //     }
+
+  //     item.addEventListener(`click`, () => {
+  //       requestAnimationFrame(scrollToId);
+  //     })
+  //   });
+
+  //   let scrollToServiceBlock,
+  //       heigthToBlock = document.getElementById(`service-block`).getBoundingClientRect().top;
+  //   const scrollDown = function() {
+  //     scrollToServiceBlock = requestAnimationFrame(scrollDown);
+  //     window.scrollBy(0, 1);
+  //     heigthToBlock--;
+  //   };
+
+  //   scrollDownBtn.addEventListener(`click`, () => {
+  //     heigthToBlock = document.getElementById(`service-block`).getBoundingClientRect().top;
+
+  //     if (heigthToBlock > 0) {
+  //       requestAnimationFrame(scrollDown);
+  //     } else {
+  //       cancelAnimationFrame(scrollDown);
+  //     }
+  //   });
+  // };
+  // scrolling();
+
+  // Раскрытые вкладок (табы)
+  const tabs =() => {
+    const tabHeader = document.querySelector(`.service-header`),
+          tab = tabHeader.querySelectorAll(`.service-header-tab`),
+          tabContent = document.querySelectorAll(`.service-tab`);
+    
+    // Смена классов
+    const toggleTabContent = (index) => {
+      for (let i = 0; i < tabContent.length; i++) {
+        if (index === i) {
+          tab[i].classList.add(`active`);
+          tabContent[i].classList.remove(`d-none`);
+        } else {
+            tab[i].classList.remove(`active`);
+            tabContent[i].classList.add(`d-none`);
+        }
       }
-
-      item.addEventListener(`click`, () => {
-        requestAnimationFrame(scrollToId);
-      })
-    });
-
-    let scrollToServiceBlock,
-        heigthToBlock = document.getElementById(`service-block`).getBoundingClientRect().top;
-    const scrollDown = function() {
-      scrollToServiceBlock = requestAnimationFrame(scrollDown);
-      window.scrollBy(0, 1);
-      heigthToBlock--;
     };
 
-    scrollDownBtn.addEventListener(`click`, () => {
-      heigthToBlock = document.getElementById(`service-block`).getBoundingClientRect().top;
+    // Отлавливание клика по элементу
+    tabHeader.addEventListener(`click`, (event) => {
+      let target = event.target;
 
-      if (heigthToBlock > 0) {
-        requestAnimationFrame(scrollDown);
-      } else {
-        cancelAnimationFrame(scrollDown);
+      target = target.closest(`.service-header-tab`);
+      if (target) {
+        tab.forEach((item, index) => {
+          if(item === target) toggleTabContent(index);
+        });
       }
     });
-    
-          
   };
-  scrolling();
+  tabs();
 })
