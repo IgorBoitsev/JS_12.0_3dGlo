@@ -267,4 +267,38 @@ document.addEventListener('DOMContentLoaded', function() {
     startSlide(3000);
   };
   slider();
+
+  // Наша команда
+  const imageChanger = () => {
+    const command = document.getElementById(`command`),
+          commandPhoto = command.querySelectorAll(`.command__photo`);
+
+    commandPhoto.forEach((item) => {
+      item.addEventListener(`mouseenter`, () => {
+        const src = item.src;
+        item.src = item.dataset.img;
+
+        item.addEventListener(`mouseleave`, () => {
+          item.src = src;
+        });
+      });
+    });
+  };
+  imageChanger();
+
+  const calcItems = document.querySelectorAll(`.calc-item`);
+
+  calcItems.forEach((item) => {
+    item.addEventListener(`change`, () => {
+
+      if (item.value.match(/\D/g) != null) {
+        item.value = ``;
+        alert(`Данное поле должно содержать только целые числа.`);
+      }
+    });
+  });
+
+
+
+
 })
