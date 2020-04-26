@@ -289,12 +289,8 @@ document.addEventListener('DOMContentLoaded', function() {
   const calcItems = document.querySelectorAll(`.calc-item`);
 
   calcItems.forEach((item) => {
-    item.addEventListener(`change`, () => {
-
-      if (item.value.match(/\D/g) != null) {
-        item.value = ``;
-        alert(`Данное поле должно содержать только целые числа.`);
-      }
+    item.addEventListener(`input`, () => {
+      item.value = item.value.replace(/\D/g, '');
     });
   });
 })
