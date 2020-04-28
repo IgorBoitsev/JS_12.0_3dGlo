@@ -325,8 +325,6 @@ document.addEventListener('DOMContentLoaded', function() {
           dayValue = 0;
       }
 
-
-
       if (typeValue && squareValue) {
         total = price * typeValue * squareValue * countValue * dayValue;
         
@@ -344,10 +342,6 @@ document.addEventListener('DOMContentLoaded', function() {
           } else if (total - totalBar < 100 && total - totalBar >= 0) {
               totalValue.textContent = totalBar;
               totalBar++;
-          // } 
-          // else if (total - totalBar <= 10 && total - totalBar >= 0) {
-          //     totalValue.textContent = totalBar;
-          //     totalBar++;
           } else {
               clearInterval(totalAmount);
           }
@@ -357,7 +351,6 @@ document.addEventListener('DOMContentLoaded', function() {
           return;
       }
     };
-
 
     calcBlock.addEventListener(`change`, (event) => {
       if (event.target === calcType || event.target === calcSquare ||
