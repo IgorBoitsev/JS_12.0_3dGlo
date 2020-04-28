@@ -306,34 +306,58 @@ document.addEventListener('DOMContentLoaded', function() {
     const countSum = () => {
       let total = 0,
           countValue = 1,
-          dayValue = 1,
-          totalProgress = 0;
+          dayValue = 10,
+          totalBar = 0;
       const typeValue = calcType.options[calcType.selectedIndex].value,
             squareValue = +calcSquare.value;
       
       if (calcCount.value > 1) {
         countValue += (calcCount.value - 1) / 10;
+      } else if (calcCount.value == `0`) {
+          countValue = 0;
       }
 
       if (calcDay.value && calcDay.value < 5) {
         dayValue *= 2;
       } else if (calcDay.value && calcDay.value < 10) {
-        dayValue *= 1.5;
+          dayValue *= 1.5;
+      } else if (calcDay.value == `0`) {
+          dayValue = 0;
       }
+
+
 
       if (typeValue && squareValue) {
         total = price * typeValue * squareValue * countValue * dayValue;
         
+        // Обнуление исходного значения для заполнения итогового поля
+        totalValue.textContent = 0;
+        
         let totalAmount = setInterval(() => {
-          if (totalValue.textContent <= total) {
-            totalValue.textContent = totalProgress;
-            totalProgress++;
+
+          if (total - totalBar > 1000) {
+            totalValue.textContent = totalBar;
+            totalBar += 1000;
+          } else if (total - totalBar <= 10000 && total - totalBar >= 0) {
+              totalValue.textContent = totalBar;
+              totalBar += 100;
+          } else if (total - totalBar < 100 && total - totalBar >= 0) {
+              totalValue.textContent = totalBar;
+              totalBar++;
+          // } 
+          // else if (total - totalBar <= 10 && total - totalBar >= 0) {
+          //     totalValue.textContent = totalBar;
+          //     totalBar++;
           } else {
               clearInterval(totalAmount);
           }
-        }, 5);
+        }, 100);
+      } else {
+          totalValue.textContent = total;
+          return;
       }
     };
+
 
     calcBlock.addEventListener(`change`, (event) => {
       if (event.target === calcType || event.target === calcSquare ||
