@@ -1,5 +1,5 @@
 class Validator {
-  constructor({selector, pattern, method}) {
+  constructor({selector, pattern = {}, method}) {
     this.form = document.querySelector(selector);
     this.pattern = pattern;
     this.method = method;
@@ -7,26 +7,55 @@ class Validator {
     this.elementsForm = [...this.form.elements].filter(item => {
       return item.tagName.toLowerCase() !== `button` &&
              item.type !== `button`;
-    })
+    });
+    this.error = new Set();
   }
 
   init() {
     this.applyStyle();
+    this.setPattern();
     // Добавление обработчиков событий на отобранные из формы кнопки
     this.elementsForm.forEach(elem => elem.addEventListener(`change`, this.checkIt().bind(this)));
+    this.form.addEventListener(`submit`, (event) => {
+      event.preventDefault();
+      this.elementsForm.forEach(elem => this.checkIt({target: elem}));
+      if (this.error.size)
+        event.preventDefault();
+    });
   }
 
   // 
   isValid(elem) {
+    const validatorMethod = {
+      notEmpty(elem) {
+        if (elem.value.trim() === ``) {
+          return false;
+        }
+        return true;
+      },
+      pattern(elem, pattern) {
+        return pattern.test(elem.value);
+      }
+    };
 
+    if (this.method) []
+    const method = this.method[elem.id];
+
+    if (method) {
+      return method.every(item => validatorMethod[item[0]](elem, this.pattern[item[1]]));
+    }
+
+    return true;
   }
 
   // Проверка на валидность
   checkIt(event) {
     if (this.isValid(event.target)) {
       this.showSuccess(event.target);
+      this.error.delete(event.target);
     } else {
         this.showError(event.target);
+        this.error.add(event.target);
     }
   }
 
@@ -36,6 +65,9 @@ class Validator {
     elem.classList.remvoe(`success`);
     elem.classList.add(`error`);
     // Сообщение об ошибке
+    if (elem.nextElementSibling && elem.nextElementSibling.classList.contains(`.validator-error`)) {
+      return;
+    }
     const errorDiv = document.createElement(`div`);
     errorDiv.textContent = `Ошибка в этом поле`;
     errorDiv.classList.add(`.validator-error`);
@@ -48,8 +80,8 @@ class Validator {
     elem.classList.remvoe(`error`);
     elem.classList.add(`success`);
     // Удаление сообщения об ошибке, если таковое осталось
-    if (elem.nextElementSibling.classList.contains(`.validator-error`)) {
-      elem.nextElementSibling.remvoe();
+    if (elem.nextElementSibling && elem.nextElementSibling.classList.contains(`.validator-error`)) {
+      elem.nextElementSibling.remove();
     }
   }
   
@@ -63,9 +95,21 @@ class Validator {
                            outline: 2x solid red;
                          }
                          .validator-error {
-                           font-size: 14px;
+                           font-size: 12px;
+                           font-family: sans-serif;
                            dolor: red;
                          }`;
     document.head.appendChild(style);
+  }
+
+  // Установка пользовательских шаблонов
+  setPattern() {
+
+    if (!this.pattern.phone) {
+      this.pattern.phone = /^\+?[78]([-()]*\d){10}$/;
+    }
+    if (!this.pattern.email) {
+      this.pattern.email = /^\w+@\w+\.\w{2,}$/;
+    }
   }
 }
