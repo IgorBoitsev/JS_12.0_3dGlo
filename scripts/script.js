@@ -306,7 +306,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const countSum = () => {
       let total = 0,
           countValue = 1,
-          dayValue = 10,
+          dayValue = 1,
           totalBar = 0;
       const typeValue = calcType.options[calcType.selectedIndex].value,
             squareValue = +calcSquare.value;
@@ -317,19 +317,19 @@ document.addEventListener('DOMContentLoaded', function() {
           countValue = 0;
       }
 
-      if (calcDay.value && calcDay.value < 5) {
-        dayValue *= 2;
+      if (calcDay.value == `0`) {
+        dayValue = 0;
+      } else if (calcDay.value && calcDay.value < 5) {
+          dayValue *= 2;
       } else if (calcDay.value && calcDay.value < 10) {
           dayValue *= 1.5;
-      } else if (calcDay.value == `0`) {
-          dayValue = 0;
       }
-
 
 
       if (typeValue && squareValue) {
         total = price * typeValue * squareValue * countValue * dayValue;
-        
+       
+
         // Обнуление исходного значения для заполнения итогового поля
         totalValue.textContent = 0;
         
@@ -344,10 +344,6 @@ document.addEventListener('DOMContentLoaded', function() {
           } else if (total - totalBar < 100 && total - totalBar >= 0) {
               totalValue.textContent = totalBar;
               totalBar++;
-          // } 
-          // else if (total - totalBar <= 10 && total - totalBar >= 0) {
-          //     totalValue.textContent = totalBar;
-          //     totalBar++;
           } else {
               clearInterval(totalAmount);
           }
@@ -358,7 +354,6 @@ document.addEventListener('DOMContentLoaded', function() {
       }
     };
 
-
     calcBlock.addEventListener(`change`, (event) => {
       if (event.target === calcType || event.target === calcSquare ||
           event.target === calcDay || event.target === calcCount) {
@@ -367,6 +362,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
   };
-  calc(100);
+  calc(1000);
 
+  
 })
