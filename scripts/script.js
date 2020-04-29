@@ -299,8 +299,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const calcBlock = document.querySelector(`.calc-block`),
           calcType = document.querySelector(`.calc-type`),
           calcSquare = document.querySelector(`.calc-square`),
-          calcDay = document.querySelector(`.calc-day`),
           calcCount = document.querySelector(`.calc-count`),
+          calcDay = document.querySelector(`.calc-day`),
           totalValue = document.getElementById(`total`);
 
     const countSum = () => {
@@ -333,6 +333,13 @@ document.addEventListener('DOMContentLoaded', function() {
         // Обнуление исходного значения для заполнения итогового поля
         totalValue.textContent = 0;
         
+        // Отключение полей, пока калькулятор считает
+        calcType.setAttribute(`disabled`, true);
+        calcSquare.setAttribute(`disabled`, true);
+        calcCount.setAttribute(`disabled`, true);
+        calcDay.setAttribute(`disabled`, true);
+
+
         let totalAmount = setInterval(() => {
 
           if (total - totalBar > 1000) {
@@ -346,6 +353,12 @@ document.addEventListener('DOMContentLoaded', function() {
               totalBar++;
           } else {
               clearInterval(totalAmount);
+              
+              // Возобновление возможности ввода данных в поля
+              calcType.removeAttribute(`disabled`);
+              calcSquare.removeAttribute(`disabled`);
+              calcCount.removeAttribute(`disabled`);
+              calcDay.removeAttribute(`disabled`);
           }
         }, 100);
       } else {
