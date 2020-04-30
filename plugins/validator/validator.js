@@ -3,7 +3,6 @@ class Validator {
     this.form = document.querySelector(selector);
     this.pattern = pattern;
     this.method = method;
-    // Отбор только кнопок
     this.elementsForm = [...this.form.elements].filter(item => {
       return item.tagName.toLowerCase() !== `button` &&
              item.type !== `button`;
@@ -12,10 +11,13 @@ class Validator {
   }
 
   init() {
+    // Добавление стилей для полей в head страницы
     this.applyStyle();
+    // Установка пользовательских шаблонов
     this.setPattern();
     // Добавление обработчиков событий на отобранные из формы кнопки
     this.elementsForm.forEach(elem => elem.addEventListener(`change`, this.checkIt().bind(this)));
+    // 
     this.form.addEventListener(`submit`, (event) => {
       event.preventDefault();
       this.elementsForm.forEach(elem => this.checkIt({target: elem}));
@@ -85,7 +87,6 @@ class Validator {
     }
   }
   
-  // Добавление стилей для полей в head страницы
   applyStyle() {
     const style = document.createElement(`style`);
     style.textContent = `input.success {
@@ -102,7 +103,6 @@ class Validator {
     document.head.appendChild(style);
   }
 
-  // Установка пользовательских шаблонов
   setPattern() {
 
     if (!this.pattern.phone) {
