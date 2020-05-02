@@ -92,15 +92,15 @@ class Validator {
   applyStyle() {
     const style = document.createElement('style');
     style.textContent = `.main-form .success,
-                          .footer-form .success {
+                          .footer-form-input .row .success {
                            border: 2px solid green
                          }
                          .main-form .error,
-                         .footer-form .error {
+                         .footer-form-input .row .error {
                            border: 2px solid red
                          }
                          .main-form .validator-error,
-                         .footer-form .validator-error {
+                         .footer-form-input .row .validator-error {
                            font-size: 12px;
                            font-family: sans-serif;
                            color: red;
