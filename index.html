@@ -416,7 +416,7 @@
 <script src="plugins/validator/validator.js"></script>
 <script>
 	// Задаем кастомные параметры для валидатор
-	const valid = new Validator({
+	const validOne = new Validator({
 		selector : '#form1',
 		pattern : {
 			// user_phone: /^\+380\d{7}$/
@@ -436,8 +436,33 @@
 			]
 		}
 	});
+	const validTwo = new Validator({
+		selector : '#form2',
+		pattern : {
+			// user_phone: /^\+380\d{7}$/
+		},
+		method : {
+			'user_name' : [
+				['notEmpty'],
+				['pattern', 'user_name']
+			],
+			'user_phone' : [
+				['notEmpty'],
+				['pattern', 'user_phone']
+			],
+			'user_email' : [
+				['notEmpty'],
+				['pattern', 'user_email']
+			],
+			'user_message' : [
+				['notEmpty'],
+				['pattern', 'user_message']
+			]
+		}
+	});
 	// Инициализация валидатора
-	valid.init();
+	validOne.init();
+	validTwo.init();
 </script>
 </body>
 </html>

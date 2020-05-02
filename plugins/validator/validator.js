@@ -19,6 +19,13 @@ class Validator {
     this.applyStyle();
     this.setPattern();
     this.elementsForm.forEach(item => item.addEventListener('change', this.checkIt.bind(this)));
+    
+    this.form.addEventListener('submit', event => {
+      event.preventDefault();
+      this.elementsForm.forEach(elem => this.checkIt({target: elem}));
+      if (this.error.size)
+        event.preventDefault();
+    });
   }
 
   isValid(elem) {
@@ -28,22 +35,19 @@ class Validator {
         return true;
       },
       pattern(elem, pattern) {
-        console.log(pattern);
-        console.log(elem.value);
-        
-        console.log(pattern.test(elem.value));
-        
         return pattern.test(elem.value);
       }
     };
+    if (this.method) {
+      const method = this.method[elem.name];
 
-    const method = this.method[elem.name];
-
-    if (method) {
-      return method.every(item => validatorMethod[item[0]](elem, this.pattern[item[1]]))
+      if (method) {
+        return method.every(item => validatorMethod[item[0]](elem, this.pattern[item[1]]))
+      }
+    } else {
+        console.warn('Необходимо передать id полей ввода и методы проверки этих полей');
     }
-    // console.log(method);
-    
+
     return true;
   }
 
@@ -80,20 +84,23 @@ class Validator {
     elem.classList.add('success');
 
     // Удаления сообщения об ошибке у соседних элементов
-    if (elem.nextElementSibling.classList.contains('validator-error'))
+    if (elem.nextElementSibling && elem.nextElementSibling.classList.contains('validator-error'))
       elem.nextElementSibling.remove();
   }
 
   // Создание стилей для оформления внешнего вида
   applyStyle() {
     const style = document.createElement('style');
-    style.textContent = `.main-form .success {
+    style.textContent = `.main-form .success,
+                          .footer-form .success {
                            border: 2px solid green
                          }
-                         .main-form .error {
+                         .main-form .error,
+                         .footer-form .error {
                            border: 2px solid red
                          }
-                         .main-form .validator-error {
+                         .main-form .validator-error,
+                         .footer-form .validator-error {
                            font-size: 12px;
                            font-family: sans-serif;
                            color: red;
@@ -111,5 +118,8 @@ class Validator {
 
     if (!this.pattern.user_email)
       this.pattern.user_email = /^\w+\.?\w+?@\w+\.\w{2,}$/;
+
+    if (!this.pattern.user_message)
+    this.pattern.user_message = /^\W+$/;
   }
 }
