@@ -414,6 +414,26 @@
 
 <script src="scripts/script.js"></script>
 <script src="plugins/validator/validator.js"></script>
-<script></script>
+<script>
+	// Задаем кастомные параметры для валидатор
+	const valid = new Validator({
+		selector : '#form1',
+		pattern : {
+			// user_phone: /^\+380\d{7}$/
+		},
+		method : {
+			'user_phone' : [
+				['notEmpty'],
+				['pattern', 'user_phone']
+			],
+			'user_email' : [
+				['notEmpty'],
+				['pattern', 'user_email']
+			]
+		}
+	});
+	// Инициализация валидатора
+	valid.init();
+</script>
 </body>
 </html>
