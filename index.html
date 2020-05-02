@@ -422,6 +422,10 @@
 			// user_phone: /^\+380\d{7}$/
 		},
 		method : {
+			'user_name' : [
+				['notEmpty'],
+				['pattern', 'user_name']
+			],
 			'user_phone' : [
 				['notEmpty'],
 				['pattern', 'user_phone']
