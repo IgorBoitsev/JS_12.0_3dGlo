@@ -380,17 +380,43 @@ document.addEventListener('DOMContentLoaded', function() {
   // send-ajax-form
   const sendForm = () => {
     const errorMessage = 'Что-то пошло не так...',
-          loadMessage = 'Загрузка',
+          loadMessage = 'Загрузка...',
           successMessage = 'Спасибо! Мы скоро с вами свяжемся!';
     
     const formTop = document.getElementById('form1'),
           formBottom = document.getElementById('form2'),
-          formPop = document.getElementById('form3');
+          formPop = document.getElementById('form3'),
+          // Получение всех форм
+          forms = document.querySelectorAll('form');
 
+    // Поле для текстового уведомления под формой
     const statusMessage = document.createElement('div');
-    statusMessage.textContent = 'Here is message.';
     statusMessage.style.cssText = 'font-size: 2rem; color: #ffffff';
     
+    formTop.addEventListener('submit', (event) => {
+      event.preventDefault();
+      
+      // Вставка уведомления о результате
+      formTop.appendChild(statusMessage);
+
+      // Запрос к серверу
+      const request = new XMLHttpRequest();
+      request.open('POST', './server.php');
+      request.setRequestHeader('Content-Type', 'multipart/form-data');
+      // Получение данных из формы
+      let formData = new FormData();
+      formData.append("username", "Groucho");
+      // console.log(formData);
+      
+      // Отправка полученных данных на сервер
+      request.send(formData);
+
+      request.addEventListener('error', event => console.log(event));
+      // Оповещение пользователя о статусе загрузки на сервер
+      // request.addEventListener('readystatechange', () => {
+      //   statusMessage.textContent = loadMessage;
+      // });
+    });
 
   };
   sendForm();
