@@ -392,32 +392,42 @@ document.addEventListener('DOMContentLoaded', function() {
     // Поле для текстового уведомления под формой
     const statusMessage = document.createElement('div');
     statusMessage.style.cssText = 'font-size: 2rem; color: #ffffff';
-    
+
     formTop.addEventListener('submit', (event) => {
       event.preventDefault();
-      
       // Вставка уведомления о результате
       formTop.appendChild(statusMessage);
-
-      // Запрос к серверу
-      const request = new XMLHttpRequest();
-      request.open('POST', './server.php');
-      request.setRequestHeader('Content-Type', 'multipart/form-data');
+      statusMessage.textContent = loadMessage;
       // Получение данных из формы
-      let formData = new FormData();
-      formData.append("username", "Groucho");
-      // console.log(formData);
-      
-      // Отправка полученных данных на сервер
-      request.send(formData);
-
-      request.addEventListener('error', event => console.log(event));
-      // Оповещение пользователя о статусе загрузки на сервер
-      // request.addEventListener('readystatechange', () => {
-      //   statusMessage.textContent = loadMessage;
-      // });
+      const formData = new FormData();
+      let body = {};
+      formData.forEach((val, key) => body[key] = val);
+      postData(body, () => {
+        statusMessage.textContent = successMessage;
+      }, (error) => {
+        statusMessage.textContent = errorMessage;
+        console.log(error);
+      });
     });
 
+    const postData = (body, outputData, errorData) => {
+      // Запрос к серверу
+      const request = new XMLHttpRequest();
+      request.addEventListener('readystatechange', () => {
+        if (request.readyState !== 4)  return;
+        
+        if (request.status === 200) {
+          outputData();
+        } else {
+          errorData(request.status);
+        }
+      });
+      request.open('POST', './server.php');
+      request.setRequestHeader('Content-Type', 'application/json');
+
+      // Отправка полученных данных на сервер
+      request.send(JSON.stringify(body));
+    };
   };
   sendForm();
 })
