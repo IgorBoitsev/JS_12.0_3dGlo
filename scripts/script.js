@@ -377,6 +377,7 @@ document.addEventListener('DOMContentLoaded', function() {
   };
   calc(1000);
 
+  // ================================================
   // send-ajax-form
   const sendForm = () => {
     const errorMessage = 'Что-то пошло не так...',
@@ -389,24 +390,38 @@ document.addEventListener('DOMContentLoaded', function() {
           // Получение всех форм
           forms = document.querySelectorAll('form');
 
+    // Запрет ввода символов кроме цифр и +
+    document.getElementsByName('user_phone').forEach(item => {
+      item.addEventListener('input', () => item.value = item.value.replace(/[^+0-9]/, ''))
+    });
+
+    // Запрет ввода символов кроме кириллицы и пробелов
+    document.getElementsByName('user_name').forEach(item => {
+      item.addEventListener('input', () => item.value = item.value.replace(/[\w\d\-\=\.\,]/, ''))
+    });
+
     // Поле для текстового уведомления под формой
     const statusMessage = document.createElement('div');
     statusMessage.style.cssText = 'font-size: 2rem; color: #ffffff';
 
-    formTop.addEventListener('submit', (event) => {
-      event.preventDefault();
-      // Вставка уведомления о результате
-      formTop.appendChild(statusMessage);
-      statusMessage.textContent = loadMessage;
-      // Получение данных из формы
-      const formData = new FormData();
-      let body = {};
-      formData.forEach((val, key) => body[key] = val);
-      postData(body, () => {
-        statusMessage.textContent = successMessage;
-      }, (error) => {
-        statusMessage.textContent = errorMessage;
-        console.log(error);
+    forms.forEach(item => {
+      item.addEventListener('submit', (event) => {
+        event.preventDefault();
+        // Вставка уведомления о результате
+        item.appendChild(statusMessage);
+        statusMessage.textContent = loadMessage;
+        // Получение данных из формы
+        const formData = new FormData(item);
+        let body = {};
+        formData.forEach((val, key) => body[key] = val);
+        postData(body, () => {
+          statusMessage.textContent = successMessage;
+        }, (error) => {
+          statusMessage.textContent = errorMessage;
+          console.log(error);
+        });
+        // Очистка полей ввода
+        item.querySelectorAll('input').forEach(elem => elem.value = '');
       });
     });
 
