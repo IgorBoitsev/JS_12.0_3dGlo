@@ -1180,8 +1180,8 @@ footer .web {
     left: 5px
   }
 }
-/* main .main-form .sk-rotating-plane {
-  width: 4em;
+main .main-form .sk-rotating-plane {
+  width: 4em !important;
   height: 4em;
   margin: auto;
   background-color: #ffffff;
@@ -1198,4 +1198,4 @@ footer .web {
   100% {
     transform: perspective(120px) rotateX(-180deg) rotateY(-179.9deg);
   }
-} */
+}
