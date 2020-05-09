@@ -13,3 +13,5 @@ const imageChanger = () => {
     });
   });
 };
+
+export default imageChanger;

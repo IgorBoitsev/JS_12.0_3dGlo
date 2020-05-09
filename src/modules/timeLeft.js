@@ -38,4 +38,6 @@ function timeLeft() {
     }
   }
   let updClk = setInterval(updateClock, 1000);
-}
+};
+
+export default timeLeft;

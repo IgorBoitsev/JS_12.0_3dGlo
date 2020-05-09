@@ -84,5 +84,6 @@ const calc = (price = 100) => {
       countSum();
     }
   });
-
 };
+
+export default calc;

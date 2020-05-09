@@ -14,3 +14,5 @@ const toggleMenu = () => {
   // Вариант с одним обработчиком события
 
 };
+
+export default toggleMenu;

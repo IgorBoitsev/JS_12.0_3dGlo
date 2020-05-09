@@ -1,0 +1,24 @@
+{
+  "name": "3dGlo",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/IgorBoitsev/JS_12.0_3dGlo.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/IgorBoitsev/JS_12.0_3dGlo/issues"
+  },
+  "homepage": "https://github.com/IgorBoitsev/JS_12.0_3dGlo#readme",
+  "devDependencies": {
+    "webpack": "^4.43.0",
+    "webpack-cli": "^3.3.11"
+  }
+}

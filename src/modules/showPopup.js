@@ -33,3 +33,5 @@ const showPopup = () => {
       popup.style.display = `none`;
   });
 };
+
+export default showPopup;
