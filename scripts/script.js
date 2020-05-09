@@ -414,42 +414,31 @@ document.addEventListener('DOMContentLoaded', function() {
         const formData = new FormData(item);
         let body = {};
         formData.forEach((val, key) => body[key] = val);
+        
         postData(body)
-          .then((status) => {
+          .then((response) => {
+            if (response.status !== 200)
+              throw new Error('Ошибка 200');
             statusMessage.textContent = successMessage;
-            console.log(status);
           })
-          .catch((status) => {
+          .catch((error) => {
             statusMessage.textContent = errorMessage;
-            console.log(status);
+            console.log(error);
           })
           // Очистка полей ввода
           .finally(() => item.querySelectorAll('input').forEach(elem => elem.value = ''));
       });
     });
 
-    // Переписанная с помощью Промисов функция
+    // Переписанная с помощью fetch() функция
     const postData = (body) => {
 
-      return new Promise((resolve, reject) => {
-        // Запрос к серверу
-        const request = new XMLHttpRequest();
-        request.addEventListener('readystatechange', () => {
-
-          if (request.readyState !== 4)
-            return;
-          
-          if (request.status === 200) {
-            resolve(request.status);
-          } else {
-              reject(request.status);
-          }
-        });
-        request.open('POST', './server.php');
-        request.setRequestHeader('Content-Type', 'application/json');
-
-        // Отправка полученных данных на сервер
-        request.send(JSON.stringify(body));
+      return fetch('./server.php', {
+                    method: 'POST',
+                    headers: {
+                      'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(body)
       });
     };
   };
