@@ -9,14 +9,19 @@ const sendForm = () => {
         // Получение всех форм
         forms = document.querySelectorAll('form');
 
-  // Запрет ввода символов кроме цифр и +
-  document.getElementsByName('user_phone').forEach(item => {
-    item.addEventListener('input', () => item.value = item.value.replace(/[^+0-9]/, ''))
-  });
-
   // Запрет ввода символов кроме кириллицы и пробелов
   document.getElementsByName('user_name').forEach(item => {
     item.addEventListener('input', () => item.value = item.value.replace(/[\w\d\-\=\.\,]/, ''))
+  });
+
+  // Запрет ввода кириллицы в поле e-mail
+  document.getElementsByName('user_email').forEach(item => {
+    item.addEventListener('input', () => item.value = item.value.replace(/[^a-zA-z0-9@.-]/, ''))
+  });
+
+  // Запрет ввода символов кроме цифр и +
+  document.getElementsByName('user_phone').forEach(item => {
+    item.addEventListener('input', () => item.value = item.value.replace(/[^+0-9]/, ''))
   });
 
   // Поле для текстового уведомления под формой
