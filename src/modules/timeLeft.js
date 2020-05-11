@@ -24,12 +24,9 @@ function timeLeft() {
     
     if (timer.timeRemaining < 0) {
       timerNumbers.style.color = `red`;
-      timer.hours = `00`;
-      timerHours.textContent = timer.hours;
-      timer.minutes = `00`;
-      timerMinutes.textContent = timer.minutes;
-      timer.seconds = `00`;
-      timerSeconds.textContent = timer.seconds;
+      timerHours.textContent = `00`;
+      timerMinutes.textContent = `00`;
+      timerSeconds.textContent = `00`;
       clearInterval(updClk);
     } else {
         timer.hours < 10 ? timerHours.textContent = `0${timer.hours}` : timerHours.textContent = timer.hours;

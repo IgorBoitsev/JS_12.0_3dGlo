@@ -44,6 +44,9 @@ const sendForm = () => {
           if (response.status !== 200)
             throw new Error('Ошибка 200');
           statusMessage.textContent = successMessage;
+          setTimeout(() => {
+            statusMessage.remove();
+          }, 3000);
         })
         .catch((error) => {
           statusMessage.textContent = errorMessage;
