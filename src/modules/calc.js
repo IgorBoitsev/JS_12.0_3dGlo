@@ -53,10 +53,13 @@ const calc = (price = 100) => {
 
       let totalAmount = setInterval(() => {
 
-        if (total - totalBar > 1000) {
+        if (total - totalBar > 10000) {
           totalValue.textContent = totalBar;
-          totalBar += 1000;
-        } else if (total - totalBar <= 10000 && total - totalBar >= 0) {
+          totalBar += 10000;
+        } else if (total - totalBar <= 10000 && total - totalBar > 1000) {
+            totalValue.textContent = totalBar;
+            totalBar += 1000;
+        } else if (total - totalBar <= 1000 && total - totalBar >= 0) {
             totalValue.textContent = totalBar;
             totalBar += 100;
         } else if (total - totalBar < 100 && total - totalBar >= 0) {
@@ -71,7 +74,7 @@ const calc = (price = 100) => {
             calcCount.removeAttribute(`disabled`);
             calcDay.removeAttribute(`disabled`);
         }
-      }, 100);
+      }, 50);
     } else {
         totalValue.textContent = total;
         return;
