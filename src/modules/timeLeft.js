@@ -9,6 +9,13 @@ function timeLeft() {
 
   let deadline24Hours = `${new Date().getDate() + 1} ${month[new Date().getMonth()]} ${new Date().getFullYear()}`;
 
+  function addZero(elem, value) {
+    if (elem < 10)
+      value.textContent = `0${elem}`;
+    else
+      value.textContent = elem;
+  }
+
   function getTimeRemaining() {
     let dateStart = new Date().getTime(),
         dateStop = new Date(deadline24Hours).getTime(),          
@@ -29,9 +36,9 @@ function timeLeft() {
       timerSeconds.textContent = `00`;
       clearInterval(updClk);
     } else {
-        timer.hours < 10 ? timerHours.textContent = `0${timer.hours}` : timerHours.textContent = timer.hours;
-        timer.minutes < 10 ? timerMinutes.textContent = `0${timer.minutes}` : timerMinutes.textContent = timer.minutes;
-        timer.seconds < 10 ? timerSeconds.textContent = `0${timer.seconds}` : timerSeconds.textContent = timer.seconds;
+        addZero(timer.hours, timerHours);
+        addZero(timer.minutes, timerMinutes);
+        addZero(timer.seconds, timerSeconds);
     }
   }
   let updClk = setInterval(updateClock, 1000);
